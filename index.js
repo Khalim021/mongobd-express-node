@@ -3,39 +3,41 @@ const app = express();
 const expressEdge = require("express-edge");
 const mongoose = require("mongoose");
 const Post = require("./models/Post");
+const fileUpload = require("express-fileupload");
+const path = require("path");
+const getHomeController = require("./controllers/Home");
+const getBlogsController = require("./controllers/Blogs");
+const getCreateBlogController = require("./controllers/CreateBlog");
+const getAboutController = require("./controllers/About");
+const getContactController = require("./controllers/Contact");
+const getCreateBlogContoller = require("./controllers/CreateBlogs");
 
 app.use(express.static("public"));
 app.use(expressEdge.engine);
-app.set("views", `${__dirname}/views`);
-mongoose.connect("mongodb+srv://theStiles:nodeAlpha175069@clusterdb.sokj3z1.mongodb.net/node-sflix");
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(fileUpload());
+app.set("views", `${__dirname}/views`);
+mongoose.connect("mongodb+srv://theStiles:nodeAlpha175069@clusterdb.sokj3z1.mongodb.net/node-sflix");
 
-app.get("/", (req, res) => {
-    res.render("home")
-});
+const validateMiddleware = (req, res, next) => {
+    if(!(req.files && req.files.image) || !req.body.title || !req.body.username || !req.body.description || !req.body.content) {
+        return res.redirect("/blog/news")
+    }
+    next();
+}
 
-app.get("/about", (req, res) => {
-    res.render("about")
-});
+app.get("/", getHomeController);
 
-app.get("/blogs", (req, res) => {
-    res.render("blogs")
-});
+app.get("/about", getAboutController);
 
-app.get("/blog/news", (req, res) => {
-    res.render("create")
-});
+app.get("/blogs/:id", getBlogsController);
 
-app.get("/contact", (req, res) => {
-    res.render("contact")
-});
+app.get("/blog/news", getCreateBlogController);
 
-app.post("/blog/create", (req, res) => {
-    Post.create(req.body, (err, post) => {
-        res.redirect("/")
-    })
-})
+app.get("/contact", getContactController);
+
+app.post("/blog/create", validateMiddleware, getCreateBlogContoller);
 
 
 
