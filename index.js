@@ -57,11 +57,13 @@ app.get("/user/login", redirectIfAuth, getLoginController);
 
 app.get("/logout", authMiddleware, getLogoutController);
 
+
+
 app.post("/blog/create", authMiddleware, validateMiddleware, getCreateBlogContoller);
 app.post("/user/auth", getCreateUserStoreController);
 app.post("/login/user", getLoginStoreController);
 
-
+app.use((req, res) => res.render("notFound404"))
 
 
 app.listen(5000, () => { console.log("Server started on Port 5000...")})
