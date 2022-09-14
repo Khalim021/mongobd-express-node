@@ -11,12 +11,16 @@ const getCreateBlogController = require("./controllers/CreateBlog");
 const getAboutController = require("./controllers/About");
 const getContactController = require("./controllers/Contact");
 const getCreateBlogContoller = require("./controllers/CreateBlogs");
+const getRegisterUserController = require("./controllers/RegisterUser");
+const getCreateUserStoreController = require("./controllers/CreateUserStore");
+const getLoginController = require("./controllers/Login");
+const getLoginStoreController = require("./controllers/LoginStore");
 
-app.use(express.static("public"));
-app.use(expressEdge.engine);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(fileUpload());
+app.use(express.static("public"))
+app.use(expressEdge.engine);
 app.set("views", `${__dirname}/views`);
 mongoose.connect("mongodb+srv://theStiles:nodeAlpha175069@clusterdb.sokj3z1.mongodb.net/node-sflix");
 
@@ -37,7 +41,15 @@ app.get("/blog/news", getCreateBlogController);
 
 app.get("/contact", getContactController);
 
+app.get("/auth/reg", getRegisterUserController);
+
+app.get("/user/login", getLoginController);
+
+
 app.post("/blog/create", validateMiddleware, getCreateBlogContoller);
+app.post("/user/auth", getCreateUserStoreController);
+app.post("/login/user", getLoginStoreController);
+
 
 
 
