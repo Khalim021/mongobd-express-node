@@ -30,8 +30,12 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/about">Sflix</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog/news">Create Blogs</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/contact">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/reg">Register</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/user/login">Login</a></li>
+                        @if(!auth)
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/reg">Register</a></li>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/user/login">Login</a></li>
+                        @else
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/logout">Log Out</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
